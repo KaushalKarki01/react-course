@@ -170,6 +170,8 @@ console.log(book);
 
 // USING TEMPLATE LITERALS IN JAVASCRIPT
 
-const summary = `The book ${title} is of ${pages} pages and was published in ${publicationDate} by ${author}`;
+const summary = `The book ${title} is of ${pages} pages and was published in ${
+  publicationDate.split("-")[0]
+} by ${author}`;
 
 console.log(summary);

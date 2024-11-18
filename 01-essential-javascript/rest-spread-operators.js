@@ -147,7 +147,7 @@ function getBook(id) {
 
 const book = getBook(1);
 
-const { genres } = book;
+const { title, pages, publicationDate, author, genres } = book;
 
 //FIRST GENRE AND REST OF THE GENRES USING ...
 const { firstGenre, ...otherGenres } = genres;
@@ -167,3 +167,9 @@ const updatedBook = {
 console.log(updatedBook);
 
 console.log(book);
+
+// USING TEMPLATE LITERALS IN JAVASCRIPT
+
+const summary = `The book ${title} is of ${pages} pages and was published in ${publicationDate} by ${author}`;
+
+console.log(summary);

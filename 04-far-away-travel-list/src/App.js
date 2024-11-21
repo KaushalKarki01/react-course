@@ -1,79 +1,45 @@
 import { useState } from "react";
-const initialList = [
-  { id: 1, description: "Passports", quantity: 2, packed: false },
-  { id: 2, description: "Chargers", quantity: 4, packed: true },
-  { id: 3, description: "Socks", quantity: 12, packed: false },
-];
+import Form from "./components/form";
+import Logo from "./components/logo";
+import PackingList from "./components/packing-list";
+import Stats from "./components/stats";
+
 export default function App() {
+  const [items, setItems] = useState([]);
+
+  function handleAddItems(item) {
+    setItems((items) => [...items, item]);
+  }
+
+  function handleDeleteItems(id) {
+    setItems((items) => items.filter((item) => item.id !== id));
+  }
+
+  function handleUpdateItems(id) {
+    setItems((items) =>
+      items.map((item) =>
+        item.id === id ? { ...item, packed: !item.packed } : item
+      )
+    );
+  }
+
+  function handleClearItems() {
+    const confirmed = window.confirm(
+      "Are you sure you want to delete items permanently?"
+    );
+    if (confirmed) return setItems([]);
+  }
   return (
     <div className="app">
       <Logo />
-      <Form />
-      <PackingList />
-      <Stats />
-    </div>
-  );
-}
-
-function Logo() {
-  return <h1>🌴 Far Away 💼</h1>;
-}
-
-function Form() {
-  const [description, setDescription] = useState("");
-  const [quantity, setQuantity] = useState(1);
-  function handleSubmit(e) {
-    e.preventDefault();
-  }
-  return (
-    <form className="add-form" onSubmit={handleSubmit}>
-      <h3>What do you need for your trip 😍?</h3>
-      <select value={quantity} onChange={(e) => setQuantity(e.target.value)}>
-        {Array.from({ length: 20 }, (_, i) => i + 1).map((num) => (
-          <option value={num} key={num}>
-            {num}
-          </option>
-        ))}
-      </select>
-      <input
-        type="text"
-        value={description}
-        onChange={(e) => setDescription(e.target.value)}
-        placeholder="items..."
+      <Form onAdd={handleAddItems} />
+      <PackingList
+        items={items}
+        onDelete={handleDeleteItems}
+        onToggleItem={handleUpdateItems}
+        onClearItems={handleClearItems}
       />
-      <button type="">add</button>
-    </form>
-  );
-}
-
-function PackingList() {
-  return (
-    <div className="list">
-      <ul>
-        {initialList.map((item) => (
-          <Item item={item} key={item.id} />
-        ))}
-      </ul>
+      <Stats items={items} />
     </div>
-  );
-}
-
-function Item({ item }) {
-  return (
-    <li>
-      <span style={item.packed ? { textDecoration: "line-through" } : {}}>
-        {item.quantity} {item.description}
-      </span>
-
-      <button type="">❌</button>
-    </li>
-  );
-}
-
-function Stats() {
-  return (
-    <footer className="stats">
-      <em>💼 You have X items on your list, and you already packed X (x%)</em>
-    </footer>
   );
 }

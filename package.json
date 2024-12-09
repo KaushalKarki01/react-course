@@ -1,0 +1,6 @@
+{
+  "dependencies": {
+    "@reduxjs/toolkit": "^2.4.0",
+    "redux-devtools-extension": "^2.13.9"
+  }
+}
